@@ -3,6 +3,10 @@ package controllers;
 import play.*;
 import play.data.*;
 import play.mvc.*;
+import static play.libs.Json.toJson;
+
+import java.util.Map;
+import java.util.HashMap;
 
 import com.joestelmach.natty.*;
 
@@ -39,5 +43,12 @@ public class Application extends Controller {
     Task.delete(id);
     return redirect(routes.Application.tasks());
   }
+
+  public static Result gimmeJson() {
+    Map<String,String> d = new HashMap<String,String>();
+    d.put("peter","foo");
+    d.put("yay","value");
+    return ok(toJson(d));
+   }
 
 }
