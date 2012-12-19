@@ -5,8 +5,14 @@ import play.data.*;
 import play.mvc.*;
 import static play.libs.Json.toJson;
 
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Date;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 import com.joestelmach.natty.*;
 
@@ -16,6 +22,8 @@ import models.*;
 
 public class Application extends Controller {
   static Form<Task> taskForm = form(Task.class);
+  static Parser parser = new Parser();
+  static DateFormat iso8601DateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mmZ");
 
   public static Result index() {
     return redirect(routes.Application.tasks());
@@ -49,6 +57,20 @@ public class Application extends Controller {
     d.put("peter","foo");
     d.put("yay","value");
     return ok(toJson(d));
+   }
+
+   public static Result nattyExample() {
+    List<DateGroup> groups = parser.parse("the day before next thursday");
+    List<String> detected = new ArrayList<String>();
+
+    for(DateGroup group:groups) {
+      List<Date> dates = group.getDates();
+      for(Date d:dates) {
+        detected.add(iso8601DateFormat.format(d));
+      }
+    }
+
+    return ok(toJson(detected));
    }
 
 }

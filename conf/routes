@@ -12,6 +12,7 @@ POST    /tasks/:id/delete       controllers.Application.deleteTask(id: Long)
 
 # Scratch
 GET     /gimmeJson              controllers.Application.gimmeJson()
+GET     /nattyExample           controllers.Application.nattyExample()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
