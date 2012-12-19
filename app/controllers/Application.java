@@ -4,6 +4,8 @@ import play.*;
 import play.data.*;
 import play.mvc.*;
 
+import com.joestelmach.natty.*;
+
 import views.html.*;
 
 import models.*;
