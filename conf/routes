@@ -11,6 +11,8 @@ POST    /tasks                  controllers.Application.newTask()
 POST    /tasks/:id/delete       controllers.Application.deleteTask(id: Long)
 
 # Scratch
+POST    /parse                  controllers.Application.parse()
+POST    /readJson               controllers.Application.readJson()
 GET     /gimmeJson              controllers.Application.gimmeJson()
 GET     /nattyExample           controllers.Application.nattyExample()
 

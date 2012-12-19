@@ -14,6 +14,8 @@ import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
+import org.codehaus.jackson.JsonNode;
+
 import com.joestelmach.natty.*;
 
 import views.html.*;
@@ -52,6 +54,20 @@ public class Application extends Controller {
     return redirect(routes.Application.tasks());
   }
 
+  public static Result readJson() {
+    JsonNode json = request().body().asJson();
+    if(json == null) {
+      return badRequest("Expecting Json data");
+    } else {
+      String name = json.findPath("name").getTextValue();
+      if(name == null) {
+        return badRequest("Missing parameter [name]");
+      } else {
+        return ok("Hello " + name);
+      }
+    }
+  }
+
   public static Result gimmeJson() {
     Map<String,String> d = new HashMap<String,String>();
     d.put("peter","foo");
@@ -71,6 +87,30 @@ public class Application extends Controller {
     }
 
     return ok(toJson(detected));
+   }
+
+   public static Result parse() {
+    JsonNode json = request().body().asJson();
+    if(json == null) {
+      return badRequest("Expecting Json data");
+    } else {
+      String text = json.findPath("text").getTextValue();
+      if(text == null) {
+        return badRequest("Missing parameter [text]");
+      } else {
+        List<DateGroup> groups = parser.parse(text);
+        List<String> detected = new ArrayList<String>();
+
+        for(DateGroup group:groups) {
+          List<Date> dates = group.getDates();
+          for(Date d:dates) {
+            detected.add(iso8601DateFormat.format(d));
+          }
+        }
+
+        return ok(toJson(detected));
+      }
+    }
    }
 
 }
